@@ -181,7 +181,7 @@ cb_cantdecode (GstElement *dec,
 
 /* Run the main loop */
 static void
-run_loop (gchar *infile, gchar *outfile)
+run_loop (gchar *infile, gchar *outfile, gint fft_size, gint fft_step, gint mood_length)
 {
   GMainLoop *loop;
   GstPad *audiopad;
@@ -212,11 +212,11 @@ run_loop (gchar *infile, gchar *outfile)
 
   /* Create analyzer chain */
   fft = make_element ("fftwspectrum", "fft");
-  g_object_set (G_OBJECT (fft), "def-size", 2048, "def-step", 1024,
+  g_object_set (G_OBJECT (fft), "def-size", fft_size, "def-step", fft_step,
 		"hiquality", TRUE, NULL);
   moodbar = make_element ("moodbar", "moodbar");
   g_object_set (G_OBJECT (moodbar), "height", 1, NULL);
-  g_object_set (G_OBJECT (moodbar), "max-width", 1000, NULL);
+  g_object_set (G_OBJECT (moodbar), "max-width", mood_length, NULL);
   sink = make_element ("filesink", "sink");
   g_object_set (G_OBJECT (sink), "location", outfile, NULL);
 
@@ -249,10 +249,14 @@ main (gint argc, gchar *argv[])
   gint tries;
 
   /* Command-line parsing */
+  gint fft_size = 2048, fft_step = 1024, mood_length = 1000;
   gchar *outfile = NULL, *infile = NULL;
   gchar **array = NULL;
   const GOptionEntry entries[] = 
     {
+      { "fft_size", 'z', G_OPTION_FLAG_OPTIONAL_ARG, G_OPTION_ARG_INT, &fft_size, "The 'def-size' arg to pass to 'fftwspectrum'.", "2048" },
+      { "fft_step", 's', G_OPTION_FLAG_OPTIONAL_ARG, G_OPTION_ARG_INT, &fft_step, "The 'def-step' arg to pass to 'fftwspectrum'.", "1024" },
+      { "mood_length", 'l', G_OPTION_FLAG_OPTIONAL_ARG, G_OPTION_ARG_INT, &mood_length, "The length of the mood.", "1000" },
       { "output", 'o', 0, G_OPTION_ARG_FILENAME, &outfile,
 	"The output .mood file", NULL },
       { G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_FILENAME_ARRAY, &array,
@@ -261,6 +265,8 @@ main (gint argc, gchar *argv[])
     };
   GOptionContext *ctx;
   GError *err = NULL;
+
+  if (!g_thread_get_initialized ()) g_thread_init(NULL);
 
   ctx = g_option_context_new ("[INFILE] - Run moodbar analyzer");
   g_option_context_add_group (ctx, gst_init_get_option_group ());
@@ -305,7 +311,7 @@ main (gint argc, gchar *argv[])
         return RETURN_NOFILE;
       oldtime = filestats.st_mtime;
 
-      run_loop (infile, outfile);
+      run_loop (infile, outfile, fft_size, fft_step, mood_length);
 
       if (stat (infile, &filestats) != -1  &&  filestats.st_mtime == oldtime)
         return return_val;
