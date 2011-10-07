@@ -254,9 +254,9 @@ main (gint argc, gchar *argv[])
   gchar **array = NULL;
   const GOptionEntry entries[] = 
     {
-      { "fft_size", 'z', G_OPTION_FLAG_OPTIONAL_ARG, G_OPTION_ARG_INT, &fft_size, "The 'def-size' arg to pass to 'fftwspectrum'.", "2048" },
-      { "fft_step", 's', G_OPTION_FLAG_OPTIONAL_ARG, G_OPTION_ARG_INT, &fft_step, "The 'def-step' arg to pass to 'fftwspectrum'.", "1024" },
-      { "mood_length", 'l', G_OPTION_FLAG_OPTIONAL_ARG, G_OPTION_ARG_INT, &mood_length, "The length of the mood.", "1000" },
+      { "fft_size", 'z', 0, G_OPTION_ARG_INT, &fft_size, "The 'def-size' arg to pass to 'fftwspectrum'.", "2048" },
+      { "fft_step", 's', 0, G_OPTION_ARG_INT, &fft_step, "The 'def-step' arg to pass to 'fftwspectrum'.", "1024" },
+      { "mood_length", 'l', 0, G_OPTION_ARG_INT, &mood_length, "The length of the mood.", "1000" },
       { "output", 'o', 0, G_OPTION_ARG_FILENAME, &outfile,
 	"The output .mood file", NULL },
       { G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_FILENAME_ARRAY, &array,
