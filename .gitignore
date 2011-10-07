@@ -1,6 +1,6 @@
 env/
-moodbar-0.1.2/*.o
-moodbar-0.1.2/*/*.o
-moodbar-0.1.2/*/*.lo
-moodbar-0.1.2/*/*.la
+moodbar-mine/*.o
+moodbar-mine/*/*.o
+moodbar-mine/*/*.lo
+moodbar-mine/*/*.la
 *.pyc
