@@ -1,0 +1,11 @@
+to install a thumbnailer for .mood files:
+
+set these gconf keys:
+
+/desktop/gnome/thumbnailers/application@x-mood/command = 
+$PREFIX/bin/mood_thumbnailer.py -s %s -o %o %i
+
+/desktop/gnome/thumbnailers/application@x-mood/enable =
+True
+
+to add a MIME-type for the mood files copy moodbar.xml to /usr/share/mime/packages and run update-mime-database
