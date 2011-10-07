@@ -11,7 +11,7 @@ import Image
 
 from mood_thumbnailer import fracticulate
 
-MOODBAR_EXECUTABLE="/home/morgan/Development/audio-thumbnailer/moodbar"
+MOODBAR_EXECUTABLE="moodbar"
 #LOGFILE = open('/home/morgan/moodbar.log', 'wb')
 
 #LOGFILE.write(repr(sys.argv) + "\n")
