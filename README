@@ -1,11 +1,28 @@
-to install a thumbnailer for .mood files:
+To install a thumbnailer for .mood files:
 
-set these gconf keys:
+Add .mood files to the mime-info-database by 
 
-/desktop/gnome/thumbnailers/application@x-mood/command = 
-$PREFIX/bin/mood_thumbnailer.py -s %s -o %o %i
+  copying moodbar.xml to /usr/share/mime/packages and running `update-mime-database`
 
-/desktop/gnome/thumbnailers/application@x-mood/enable =
-True
+  OR
 
-to add a MIME-type for the mood files copy moodbar.xml to /usr/share/mime/packages and run update-mime-database
+  copying it to ~/.local/share/mime/packages and running `update-mime-database ~/.local/share/mime`
+
+
+See the install_thumbnailers.sh script to add the gconf keys for mood files and various audio formats.
+
+
+Credits
+-------
+
+The moodbar algorithm is by Gavin Wood and Simon O'Keefe. The moodbar code is from
+
+http://amarok.kde.org/wiki/Moodbar
+
+See that page for more info about it.
+
+
+The 'fracticulate' algorithm was ispired by this comic:
+
+http://xkcd.com/195/
+
