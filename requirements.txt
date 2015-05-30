@@ -1,1 +1,5 @@
-Pillow==2.8.1
+# The version in Ubuntu 14.04
+Pillow==2.3.0
+
+# The version in Ubuntu 14.04
+numpy==1.8.2
