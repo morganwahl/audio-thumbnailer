@@ -10,8 +10,7 @@ import Image
 
 from audio_thumbnailer.fracticulate import fracticulate
 
-
-if __name__ == '__main__':
+def main():
     usage = 'usage: %prog [options] <mood file>'
     parser = OptionParser(usage=usage)
     parser.add_option(
@@ -67,3 +66,6 @@ if __name__ == '__main__':
     im = im.resize((options.size,) * 2, Image.NEAREST)
 
     im.save(outfile, 'png')
+
+if __name__ == '__main__':
+    main()
