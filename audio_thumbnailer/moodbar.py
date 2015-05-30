@@ -14,6 +14,24 @@ MOODBAR_EXECUTABLE = os.path.abspath(os.path.join(
     'moodbar',
 ))
 
+def read_mood_file(filename):
+    # a mood file is a bunch of RGB triples
+
+    with open(filename, 'rb') as infile:
+        # just read the whole file
+        inbytes = infile.read()
+
+    # go through the data 3 bytes at a time
+    colors = []
+    for i in range(len(inbytes) / 3):
+        offset = i * 3
+        rgb = []
+        for j in range(3):
+            rgb.append(ord(inbytes[offset + j]))
+        colors.append('|'.join(map(str, rgb)))
+
+    return colors
+
 def audio_get_colors(infile_name, size):
     mood_file = tempfile.NamedTemporaryFile(delete=False)
     mood_file.close()
@@ -45,19 +63,8 @@ def audio_get_colors(infile_name, size):
         else:
             length_worked = True
 
-    mood = open(mood_file.name)
+    colors = read_mood_file(mood_file.name)
 
-    # read the file 3 bytes at a time
-    inbytes = mood.read()
-    colors = []
-    for i in range(len(inbytes) / 3):
-        offset = i * 3
-        rgb = []
-        for j in range(3):
-            rgb.append(ord(inbytes[offset + j]))
-        colors.append('|'.join(map(str, rgb)))
-
-    mood.close()
     os.remove(mood_file.name)
 
     return colors

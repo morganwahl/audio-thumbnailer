@@ -5,13 +5,12 @@ import sys
 sys.path.remove(os.path.dirname(os.path.abspath(__file__)))
 
 
-# a mood is a bunch of RGB triples
-
 from optparse import OptionParser
 
 import Image
 
 from audio_thumbnailer.fracticulate import fracticulate
+from audio_thumbnailer.moodbar import read_mood_file
 
 def main():
     usage = 'usage: %prog [options] <mood file>'
@@ -37,22 +36,12 @@ def main():
     if len(args) < 1:
         exit("please give a .mood file to render")
 
-    infile = open(args[0], 'rb')
-
     if options.outfile is None:
         outfile = sys.stdout
     else:
         outfile = open(options.outfile, 'wb')
 
-    # read the file 3 bytes at a time
-    inbytes = infile.read()
-    colors = []
-    for i in range(len(inbytes) / 3):
-        offset = i * 3
-        rgb = []
-        for j in range(3):
-            rgb.append(ord(inbytes[offset + j]))
-        colors.append('|'.join(map(str, rgb)))
+    colors = read_mood_file(args[0])
 
     # now turn the color tuples into an image
     pixels = fracticulate(colors, ('tl', 'tr'))
