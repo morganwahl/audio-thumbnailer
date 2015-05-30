@@ -12,6 +12,8 @@ Add .mood files to the mime-info-database by
 See the install_thumbnailers.sh script to add the gconf keys for mood files and various audio formats.
 
 
+To build moodbar, you need fftw3-dev and gstreamer0.10-dev packages on ubuntu.
+
 Credits
 -------
 
@@ -25,4 +27,3 @@ See that page for more info about it.
 The 'fracticulate' algorithm was ispired by this comic:
 
 http://xkcd.com/195/
-
