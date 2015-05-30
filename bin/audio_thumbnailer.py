@@ -9,7 +9,7 @@ from optparse import OptionParser
 
 from PIL import Image
 
-from mood_thumbnailer import fracticulate
+from audio_thumbnailer.fracticulate import fracticulate
 
 MOODBAR_EXECUTABLE="moodbar"
 #LOGFILE = open('/home/morgan/moodbar.log', 'wb')
