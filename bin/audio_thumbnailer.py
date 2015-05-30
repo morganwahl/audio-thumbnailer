@@ -19,28 +19,28 @@ MOODBAR_EXECUTABLE="moodbar"
 usage = 'usage: %prog [options] <audio file>'
 parser = OptionParser(usage=usage)
 parser.add_option("-s", "--size",
-	type='int',
-	default=256,
-	metavar='SIZE',
-	help="output a image of SIZE x SIZE (defaults to %default)",
+    type='int',
+    default=256,
+    metavar='SIZE',
+    help="output a image of SIZE x SIZE (defaults to %default)",
 )
 parser.add_option("-o", "--output-file",
-	dest="outfile",
-	metavar='FILE',
-	help="write the PNG thumbnail to FILE (defaults to stdout)",
+    dest="outfile",
+    metavar='FILE',
+    help="write the PNG thumbnail to FILE (defaults to stdout)",
 )
 
 (options, args) = parser.parse_args()
 
 if len(args) < 1:
-	exit("please give an audio file to thumbnail")
+    exit("please give an audio file to thumbnail")
 
 infile_name = args[0]
 
 if (options.outfile is None):
-	outfile = sys.stdout
+    outfile = sys.stdout
 else:
-	outfile = open(options.outfile, 'wb')
+    outfile = open(options.outfile, 'wb')
 
 mood_file = tempfile.NamedTemporaryFile(delete=False)
 mood_file.close()
@@ -69,11 +69,11 @@ mood = open(mood_file.name)
 inbytes = mood.read()
 colors = []
 for i in range( len(inbytes) / 3 ) :
-	offset = i * 3
-	rgb = []
-	for j in range(3):
-		rgb.append( ord(inbytes[offset + j]) )
-	colors.append('|'.join(map(str, rgb)))
+    offset = i * 3
+    rgb = []
+    for j in range(3):
+        rgb.append( ord(inbytes[offset + j]) )
+    colors.append('|'.join(map(str, rgb)))
 
 mood.close()
 os.remove(mood_file.name)
@@ -88,10 +88,10 @@ im = Image.new('RGB', pixels.shape)
 
 raveled = []
 for p in pixels.ravel():
-	if p is None:
-		raveled.append( (0,0,0) )
-	else:
-		raveled.append(tuple(map(int, p.split('|'))))
+    if p is None:
+        raveled.append( (0,0,0) )
+    else:
+        raveled.append(tuple(map(int, p.split('|'))))
 im.putdata(raveled)
 im = im.resize((options.size,) * 2, Image.NEAREST)
 
