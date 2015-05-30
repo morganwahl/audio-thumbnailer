@@ -11,20 +11,24 @@ from PIL import Image
 
 from audio_thumbnailer.fracticulate import fracticulate
 
-MOODBAR_EXECUTABLE="moodbar"
+MOODBAR_EXECUTABLE = "moodbar"
 #LOGFILE = open('/home/morgan/moodbar.log', 'wb')
 
 #LOGFILE.write(repr(sys.argv) + "\n")
 
 usage = 'usage: %prog [options] <audio file>'
 parser = OptionParser(usage=usage)
-parser.add_option("-s", "--size",
+parser.add_option(
+    "-s",
+    "--size",
     type='int',
     default=256,
     metavar='SIZE',
     help="output a image of SIZE x SIZE (defaults to %default)",
 )
-parser.add_option("-o", "--output-file",
+parser.add_option(
+    "-o",
+    "--output-file",
     dest="outfile",
     metavar='FILE',
     help="write the PNG thumbnail to FILE (defaults to stdout)",
@@ -52,8 +56,16 @@ length_worked = False
 length = options.size ** 2
 while (not length_worked):
     #LOGFILE.write("trying length %d\n" % length)
-    moodbar_args = (MOODBAR_EXECUTABLE, '-s', '512', '-l', unicode(length), '-o', mood_file.name, infile_name)
-    moodbar_proc = subprocess.Popen(args=moodbar_args, stdout=tempfile.TemporaryFile())
+    moodbar_args = (
+        MOODBAR_EXECUTABLE,
+        '-s', '512',
+        '-l', unicode(length),
+        '-o', mood_file.name,
+        infile_name
+    )
+    moodbar_proc = subprocess.Popen(
+        args=moodbar_args, stdout=tempfile.TemporaryFile()
+    )
     moodbar_proc.wait()
 
     actual_length = os.path.getsize(mood_file.name) / 3
@@ -68,11 +80,11 @@ mood = open(mood_file.name)
 # read the file 3 bytes at a time
 inbytes = mood.read()
 colors = []
-for i in range( len(inbytes) / 3 ) :
+for i in range(len(inbytes) / 3):
     offset = i * 3
     rgb = []
     for j in range(3):
-        rgb.append( ord(inbytes[offset + j]) )
+        rgb.append(ord(inbytes[offset + j]))
     colors.append('|'.join(map(str, rgb)))
 
 mood.close()
@@ -89,7 +101,7 @@ im = Image.new('RGB', pixels.shape)
 raveled = []
 for p in pixels.ravel():
     if p is None:
-        raveled.append( (0,0,0) )
+        raveled.append((0, 0, 0))
     else:
         raveled.append(tuple(map(int, p.split('|'))))
 im.putdata(raveled)

@@ -14,13 +14,17 @@ from audio_thumbnailer.fracticulate import fracticulate
 if __name__ == '__main__':
     usage = 'usage: %prog [options] <mood file>'
     parser = OptionParser(usage=usage)
-    parser.add_option("-s", "--size",
+    parser.add_option(
+        "-s",
+        "--size",
         type='int',
         default=256,
         metavar='SIZE',
         help="output a image of SIZE x SIZE (defaults to %default)",
     )
-    parser.add_option("-o", "--output-file",
+    parser.add_option(
+        "-o",
+        "--output-file",
         dest="outfile",
         metavar='FILE',
         help="write the thumbnail to FILE (defaults to stdout)",
@@ -41,11 +45,11 @@ if __name__ == '__main__':
     # read the file 3 bytes at a time
     inbytes = infile.read()
     colors = []
-    for i in range( len(inbytes) / 3 ) :
+    for i in range(len(inbytes) / 3):
         offset = i * 3
         rgb = []
         for j in range(3):
-            rgb.append( ord(inbytes[offset + j]) )
+            rgb.append(ord(inbytes[offset + j]))
         colors.append('|'.join(map(str, rgb)))
 
     # now turn the color tuples into an image
@@ -56,11 +60,10 @@ if __name__ == '__main__':
     raveled = []
     for p in pixels.ravel():
         if p is None:
-            raveled.append( (0,0,0) )
+            raveled.append((0, 0, 0))
         else:
             raveled.append(tuple(map(int, p.split('|'))))
     im.putdata(raveled)
     im = im.resize((options.size,) * 2, Image.NEAREST)
 
     im.save(outfile, 'png')
-
