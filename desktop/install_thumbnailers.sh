@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 for mime in "application@x-mood"
 do
