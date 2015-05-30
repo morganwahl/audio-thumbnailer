@@ -1,7 +1,9 @@
+import logging
 import os
 import subprocess
 import tempfile
 
+L = logging.getLogger(__name__)
 
 MOODBAR_EXECUTABLE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),  # audio_thumbnailer
@@ -22,7 +24,7 @@ def audio_get_colors(infile_name, size):
     length_worked = False
     length = size ** 2
     while not length_worked:
-        #LOGFILE.write("trying length %d\n" % length)
+        L.debug("trying length %d", length)
         moodbar_args = (
             MOODBAR_EXECUTABLE,
             '-s', '512',
@@ -36,7 +38,7 @@ def audio_get_colors(infile_name, size):
         moodbar_proc.wait()
 
         actual_length = os.path.getsize(mood_file.name) / 3
-        #LOGFILE.write("actual length was %d\n" % actual_length)
+        L.debug("actual length was %d", actual_length)
         if actual_length < length:
             length = length / 4
         else:

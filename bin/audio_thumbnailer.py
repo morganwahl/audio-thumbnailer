@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import logging
 import sys
 
 from optparse import OptionParser
@@ -9,10 +10,11 @@ from PIL import Image
 from audio_thumbnailer.fracticulate import fracticulate
 from audio_thumbnailer.moodbar import audio_get_colors
 
-def main():
-    #LOGFILE = open('/home/morgan/moodbar.log', 'wb')
+L = logging.getLogger(__name__)
 
-    #LOGFILE.write(repr(sys.argv) + "\n")
+def main():
+
+    L.debug('%r', sys.argv)
 
     usage = 'usage: %prog [options] <audio file>'
     parser = OptionParser(usage=usage)
