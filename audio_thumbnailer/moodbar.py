@@ -5,14 +5,14 @@ import tempfile
 
 L = logging.getLogger(__name__)
 
-MOODBAR_EXECUTABLE = os.path.join(
+MOODBAR_EXECUTABLE = os.path.abspath(os.path.join(
     os.path.dirname(os.path.abspath(__file__)),  # audio_thumbnailer
     '..',  # repo
     'vendor',
     'moodbar-gst',
     'analyzer',
     'moodbar',
-)
+))
 
 def audio_get_colors(infile_name, size):
     mood_file = tempfile.NamedTemporaryFile(delete=False)
