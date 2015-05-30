@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
-# a mood is a bunch of RGB triples
-
+import os
 import sys
+sys.path.remove(os.path.dirname(os.path.abspath(__file__)))
+
+
+# a mood is a bunch of RGB triples
 
 from optparse import OptionParser
 

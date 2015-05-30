@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
+from __future__ import absolute_import
+
 import logging
+import os
 import sys
+sys.path.remove(os.path.dirname(os.path.abspath(__file__)))
 
 from optparse import OptionParser
 
