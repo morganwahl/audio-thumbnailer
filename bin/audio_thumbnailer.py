@@ -7,7 +7,7 @@ import tempfile
 
 from optparse import OptionParser
 
-import Image
+from PIL import Image
 
 from mood_thumbnailer import fracticulate
 
@@ -96,4 +96,3 @@ im.putdata(raveled)
 im = im.resize((options.size,) * 2, Image.NEAREST)
 
 im.save(outfile, 'png')
-
