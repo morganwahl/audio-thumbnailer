@@ -32,6 +32,7 @@ def audio_get_colors(infile_name, size):
             '-o', mood_file.name,
             infile_name
         )
+        L.debug("Running %r", moodbar_args)
         moodbar_proc = subprocess.Popen(
             args=moodbar_args, stdout=tempfile.TemporaryFile()
         )
