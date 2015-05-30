@@ -42,7 +42,7 @@ def main():
 
     infile_name = args[0]
 
-    if (options.outfile is None):
+    if options.outfile is None:
         outfile = sys.stdout
     else:
         outfile = open(options.outfile, 'wb')
@@ -55,7 +55,7 @@ def main():
     # the highest is simply size ^ 2
     length_worked = False
     length = options.size ** 2
-    while (not length_worked):
+    while not length_worked:
         #LOGFILE.write("trying length %d\n" % length)
         moodbar_args = (
             MOODBAR_EXECUTABLE,

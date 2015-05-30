@@ -36,7 +36,7 @@ def main():
 
     infile = open(args[0], 'rb')
 
-    if (options.outfile is None):
+    if options.outfile is None:
         outfile = sys.stdout
     else:
         outfile = open(options.outfile, 'wb')
