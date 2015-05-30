@@ -32,11 +32,7 @@ def read_mood_file(filename):
 
     return colors
 
-def audio_get_colors(infile_name, size):
-    mood_file = tempfile.NamedTemporaryFile(delete=False)
-    mood_file.close()
-    # generate the mood
-
+def make_mood_file(audio_filename, mood_filename, size):
     # binary search for the longest power-of-4 length that will actually work
     # the highest is simply size ^ 2
     length_worked = False
@@ -47,8 +43,8 @@ def audio_get_colors(infile_name, size):
             MOODBAR_EXECUTABLE,
             '-s', '512',
             '-l', unicode(length),
-            '-o', mood_file.name,
-            infile_name
+            '-o', mood_filename,
+            audio_filename
         )
         L.debug("Running %r", moodbar_args)
         moodbar_proc = subprocess.Popen(
@@ -56,12 +52,19 @@ def audio_get_colors(infile_name, size):
         )
         moodbar_proc.wait()
 
-        actual_length = os.path.getsize(mood_file.name) / 3
+        actual_length = os.path.getsize(mood_filename) / 3
         L.debug("actual length was %d", actual_length)
         if actual_length < length:
             length = length / 4
         else:
             length_worked = True
+
+def audio_get_colors(infile_name, size):
+    mood_file = tempfile.NamedTemporaryFile(delete=False)
+    mood_file.close()
+    # generate the mood
+
+    make_mood_file(infile_name, mood_file.name, size)
 
     colors = read_mood_file(mood_file.name)
 
