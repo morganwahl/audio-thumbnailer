@@ -1,8 +1,21 @@
 #!/usr/bin/env python
 
+import logging
 import os
 import sys
-sys.path.remove(os.path.dirname(os.path.abspath(__file__)))
+
+if __name__ == '__main__':
+    _HERE = os.path.dirname(os.path.abspath(__file__))
+    if _HERE in sys.path:
+        sys.path.remove()
+    del _HERE
+
+    _LIB = os.path.join(
+        os.environ['HOME'],
+        'audio-thumbnailer',
+    )
+    sys.path.insert(0, _LIB)
+    del _LIB
 
 
 from optparse import OptionParser
@@ -13,6 +26,8 @@ from audio_thumbnailer.fracticulate import fracticulate
 from audio_thumbnailer.moodbar import read_mood_file
 
 def main():
+    logging.basicConfig(level='DEBUG')
+
     usage = 'usage: %prog [options] <mood file>'
     parser = OptionParser(usage=usage)
     parser.add_option(
@@ -36,11 +51,6 @@ def main():
     if len(args) < 1:
         exit("please give a .mood file to render")
 
-    if options.outfile is None:
-        outfile = sys.stdout
-    else:
-        outfile = open(options.outfile, 'wb')
-
     colors = read_mood_file(args[0])
 
     # now turn the color tuples into an image
@@ -56,6 +66,11 @@ def main():
             raveled.append(tuple(map(int, p.split('|'))))
     im.putdata(raveled)
     im = im.resize((options.size,) * 2, Image.NEAREST)
+
+    if options.outfile is None:
+        outfile = sys.stdout
+    else:
+        outfile = open(options.outfile, 'wb')
 
     im.save(outfile, 'png')
 

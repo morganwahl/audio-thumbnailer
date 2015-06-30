@@ -5,7 +5,19 @@ from __future__ import absolute_import
 import logging
 import os
 import sys
-sys.path.remove(os.path.dirname(os.path.abspath(__file__)))
+
+if __name__ == '__main__':
+    _HERE = os.path.dirname(os.path.abspath(__file__))
+    if _HERE in sys.path:
+        sys.path.remove()
+    del _HERE
+
+    _LIB = os.path.join(
+        os.environ['HOME'],
+        'audio-thumbnailer',
+    )
+    sys.path.insert(0, _LIB)
+    del _LIB
 
 from optparse import OptionParser
 
@@ -17,6 +29,7 @@ from audio_thumbnailer.moodbar import audio_get_colors
 L = logging.getLogger(__name__)
 
 def main():
+    logging.basicConfig(level='WARN')
 
     L.debug('%r', sys.argv)
 
